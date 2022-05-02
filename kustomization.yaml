@@ -1,0 +1,10 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+images:
+  - name: 469123920517.dkr.ecr.ap-southeast-1.amazonaws.com/lab-argocd
+    newTag: 0.1.0
+
+resources:
+  - deployment.yaml
+
