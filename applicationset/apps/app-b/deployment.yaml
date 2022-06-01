@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lab-app-b
+  labels:
+    app: app-b
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-b
+  template:
+    metadata:
+      labels:
+        app: app-b
+    spec:
+      imagePullSecrets:
+      - name: private-ecr
+      containers:
+      - name: app-b
+        image: 469123920517.dkr.ecr.ap-southeast-1.amazonaws.com/lab-argocd:0.1.0
+        ports:
+        - containerPort: 80
