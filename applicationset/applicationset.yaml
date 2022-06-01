@@ -4,20 +4,29 @@ metadata:
   name: lab-applicationset
 spec:
   generators:
-  - git:
-      repoURL: https://github.com/fpiyapol/lab-argocd.git
-      revision: HEAD
-      directories:
-      - path: applicationset/apps/*
+  - matrix:
+      generators:
+      - list:
+          elements:
+          - env: dev
+          - env: prd
+      - git:
+          repoURL: https://github.com/fpiyapol/lab-argocd.git
+          revision: HEAD
+          directories:
+          - path: applicationset/apps/*
   template:
     metadata:
-      name: '{{path}}'
+      name: '{{path.basename}}-{{env}}'
     spec:
-      project: default
+      project: 'lab-{{env}}'
       source:
-        repoURL: https://github.com/argoproj/applicationset.git
+        repoURL: https://github.com/fpiyapol/lab-argocd.git
         targetRevision: HEAD
         path: '{{path}}'
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{path.basename}}'
+      syncPolicy:
+        syncOptions:
+        - CreateNamespace=true
