@@ -19,14 +19,13 @@ spec:
     metadata:
       name: '{{path.basename}}-{{env}}'
     spec:
-      project: 'lab-{{env}}'
+      project: 'default'
       source:
         repoURL: https://github.com/fpiyapol/lab-argocd.git
         targetRevision: HEAD
         path: '{{path}}'
       destination:
         server: https://kubernetes.default.svc
-        namespace: '{{path.basename}}'
+        namespace: '{{path.basename}}-{{env}}'
       syncPolicy:
-        syncOptions:
-        - CreateNamespace=true
+        automated: {}
